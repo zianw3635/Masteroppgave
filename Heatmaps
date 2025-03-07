@@ -1,0 +1,76 @@
+#Clustered heatmap of isolates.
+library(readxl)
+heatmap_kilde_ST <- read_excel("~/Desktop/heatmap_kilde_ST.xlsx")
+View(heatmap_kilde_ST)
+
+library(pheatmap)
+library(dplyr)
+library(ComplexHeatmap)
+library(circlize)
+library(RColorBrewer)
+
+
+Data_ST_source <- heatmap_kilde_ST %>% select(,-ID, -MLST)
+
+# Extract the matrix of gene values (excluding 'ST' and 'source')
+gene_matrix <- as.matrix(Data_ST_source[, !(names(Data_ST_source) %in% c("ST", "Source", "Pathotype"))])
+
+
+if (!all(gene_matrix %in% c(0, 1))) {
+  stop("Gene expression matrix contains values other than 0 and 1")
+}
+
+row_annotations <- data.frame(Source = Data_ST_source$Source, ST = Data_ST_source$ST, Pathotype = Data_ST_source$Pathotype)
+rownames(row_annotations) <- rownames(Data_ST_source)  # Ensure row names match heatmap data
+row_annotations <- row_annotations[, c("Pathotype", "Source", "ST")]
+
+row_annotations$ST <- factor(row_annotations$ST, levels = c(10, 11, 21, 73, 95, 131))
+
+binary_colors <- c("0" = "aliceblue", "1" = "steelblue")  
+
+
+ann_colors <- list(
+  ST = structure(brewer.pal(length(unique(Data_ST_source$ST)), "Set3"), 
+                 names = unique(Data_ST_source$ST)),
+  Source = c("Urine" = "#cae7b9", "Feces" = "#f3dea8", "Blood" = "#eb9486", "Unknown" = "#7e7f9a"),
+  Pathotype = structure(brewer.pal(length(unique(Data_ST_source$Pathotype)), "Accent"), 
+                        names = unique(Data_ST_source$Pathotype)))
+
+row_anno <- rowAnnotation(df = row_annotations, col = ann_colors)
+
+
+
+png("heatmap.png", width = 10000, height = 8000, res = 400)
+Heatmap(gene_matrix, 
+        name = "Presence",  # Name of heatmap legend
+        col = binary_colors,
+        row_title = "Isolates",
+        column_title = "Genes",
+        show_row_names = FALSE, # Hide row names if too many isolates
+        show_column_names = TRUE,
+        left_annotation = row_anno, # Add annotation
+        clustering_distance_rows = "euclidean", 
+        clustering_distance_columns = "euclidean",
+        clustering_method_rows = "complete",
+        clustering_method_columns = "complete",
+        use_raster = FALSE,
+        column_split = 4, 
+        column_gap = unit(3, "mm"))
+dev.off()
+
+
+#Clustered heatmap of sequence types. 
+library(readxl)
+ST_heatmap <- read_excel("~/Desktop/ST_heatmap.xlsx")
+View(ST_heatmap)
+
+ST_heatmapp <- ST_heatmap[, -1]
+
+library(pheatmap)
+
+ST_heatmapp <- as.data.frame(ST_heatmapp)
+my_matrix <- as.matrix(ST_heatmapp)
+
+pheatmap(
+  my_matrix,
+  cutree_cols = 9)
