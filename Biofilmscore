@@ -1,0 +1,40 @@
+#Boxplot of biofilmscore of the STs.
+library(readxl)
+Single_biofilm <- read_excel("~/Desktop/Single_biofilm.xlsx",
+                                    sheet = "Ark1")
+View(Single_biofilm)
+
+Single_biofilm_total <- Single_biofilm
+Single_biofilm_total$ST <- "Total"
+
+Single_biofilm_combined <- rbind(Single_biofilm, Single_biofilm_total)
+
+Single_biofilm_combined$ST <- factor(Single_biofilm_combined$ST, levels = c("ST10", "ST11", "ST21", "ST73", "ST95", "ST131", "Total"))
+
+boxplot(Single_biofilm_combined$`Single genes` ~ Single_biofilm_combined$ST,
+        main = "Boxplot of biofilmscore by ST",
+        xlab = "ST",
+        ylab = "Biofilmscore",
+        col = "lightblue",
+        notch = FALSE)
+
+
+#Boxplot of biofilmscore of the isolation sources.
+library(readxl)
+IsoBio <- read_excel("~/Desktop/IsoBio.xlsx", 
+                     sheet = "Singleiso")
+View(IsoBio)
+
+Isolation_biofilm_total <- IsoBio
+IsoBio$Isolation <- "Total"
+
+Single_biofilm_combined <- rbind(Isolation_biofilm_total, IsoBio)
+
+Single_biofilm_combined$Isolation <- factor(Single_biofilm_combined$Isolation, levels = c("Blood", "Urine", "Feces", "Unknown", "Total"))
+
+boxplot(Single_biofilm_combined$`Biofilmscore` ~ Single_biofilm_combined$Isolation,
+        main = "Boxplot of biofilmscore by isolation source",
+        xlab = "Isolation source",
+        ylab = "Biofilmscore",
+        col = "lightblue",
+        notch = FALSE)
