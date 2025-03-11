@@ -1,0 +1,21 @@
+library(readxl)
+Biofilmscore <- read_excel("~/Library/CloudStorage/OneDrive-UiTOffice365/Masteroppgave i farmasi/Biofilmscore.xlsx", 
+                           sheet = "Ark1")
+View(Biofilmscore)
+
+library(ggplot2)
+
+Biofilmscore$`Functional category` <- factor(Biofilmscore$`Functional category`,
+                                             levels = c("Total", "Accessory virulence factors", "Transport", "Motility", "Cell metabolism and division", "Regulation", "Capsule", "Adhesins", "Toxins", "Biofilm matrix"))
+
+Biofilmscore$`Sequence type` <- factor(Biofilmscore$`Sequence type`,
+                                       levels = c("ST10", "ST11", "ST21", "ST73", "ST95", "ST131"))
+
+
+ggplot(Biofilmscore, aes(y = `Functional category`, x = `Sequence type`, fill = Score)) +
+  geom_tile() +
+  scale_fill_gradient(low = "#fdfdfd", high = "skyblue4") +  
+  theme_minimal() +
+  labs(title = "Gene Function Heatmap", y = "Functional Category", x = "Sequence Type") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  guides(fill = guide_colorbar(barwidth = 2, barheight = 20))
