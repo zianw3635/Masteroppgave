@@ -1,0 +1,26 @@
+library(readxl)
+library(dplyr)
+library(corrplot)
+
+Dataset_operon_cutoff_170325 <- read_excel("~/OneDrive - UiT Office 365/Masteroppgave i farmasi/Dataset_operon_cutoff_170325.xlsx")
+View(Dataset_operon_cutoff_170325)
+
+Data_filtered <- Dataset_operon_cutoff_170325 %>% select(,-ID, -PopPUNK, -MLST,	-Source, -Length_Mbp,	-Num_CDSs, -Num_contigs, -ST, -MDR, -Ab_classes, -Pathotype, -Phylogroup, -Isolation, -Year, 
+                                                  -Country, -Biofilmscore, -Continent, -Total_AMR_genes, -AMR_genes, -Total_virulence_genes, -Pathotype_Vir_genes, -Other_Vir_genes, -name_in_presence_absence)
+
+zero_var_cols <- sapply(Data_filtered, function(x) length(unique(x)) == 1)
+Data_op_filtered <- Data_filtered[, !zero_var_cols]  # Keep only columns with variability
+
+cor_matrix <- cor(Data_op_filtered, method = "pearson")
+
+hc <- hclust(dist(1 - cor_matrix))
+
+cor_matrix <- cor(Data_op_filtered, method = "pearson")
+
+hc <- hclust(dist(1 - cor_matrix))
+
+corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45, tl.cex = 0.5,
+         order = "hclust", 
+         hclust.method = "complete",  
+         addrect = 5,
+         add = FALSE)
