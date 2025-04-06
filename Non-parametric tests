@@ -1,0 +1,44 @@
+1) To test for normality:
+shapiro.test(data$Biofilmscore)
+
+2) Kruskal-Wallis:
+kruskal_test <- kruskal.test(Biofilmscore ~ ST, data = data)
+print(kruskal_test)
+
+3) Dunn's test: 
+library(dunn.test)
+dunn_test_result <- dunn.test(data$Biofilmscore, data$ST, method = "bonferroni")
+print(dunn_test_result)
+
+4) Wilcoxon-Rank sum test:
+library(dplyr)
+
+total_data <- data$Biofilmscore
+unique_STs <- unique(data$ST)
+
+# Initialize a vector to store p-values
+p_values <- numeric(length(unique_STs))
+
+# Loop through each ST and compare it to the total dataset
+for (i in seq_along(unique_STs)) {
+  st <- unique_STs[i]
+  group_data <- data$Biofilmscore[data$ST == st]
+  
+  # Perform Wilcoxon Rank-Sum test (Mann-Whitney U test)
+  test_result <- wilcox.test(group_data, total_data)
+  
+  # Store the p-value
+  p_values[i] <- test_result$p.value
+  
+  # Print results before correction
+  cat("ST:", st, "| Raw p-value:", test_result$p.value, "\n")
+}
+
+# Apply Bonferroni correction
+adjusted_p_values <- p.adjust(p_values, method = "bonferroni")
+
+# Print adjusted p-values
+cat("\nAdjusted p-values (Bonferroni Correction):\n")
+for (i in seq_along(unique_STs)) {
+  cat("ST:", unique_STs[i], "| Adjusted p-value:", adjusted_p_values[i], "\n")
+}
