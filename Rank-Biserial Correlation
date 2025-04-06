@@ -1,0 +1,40 @@
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(rstatix)
+library(ggpubr)
+library(psych)
+library(coin)
+
+df <- data
+#WHEN FILTERING ST10: df_no_st10 <- df %>% filter(ST != "10")
+
+#Turn unknown MDR (?) into NA. Then remove the NAs. 
+df$MDR[df$MDR == "?"] <- NA
+df_filtered <- na.omit(df)
+
+# Test for normality within groups and the whole group:
+shapiro.test(df$Biofilmscore)  
+
+df_yes <- df_filtered %>% filter(MDR == "Yes")
+df_no  <- df_filtered %>% filter(MDR == "No")
+
+shapiro_test_yes <- shapiro.test(df_yes$Biofilmscore)
+shapiro_test_no  <- shapiro.test(df_no$Biofilmscore)
+
+#Wilxocon test to see if there is a significant difference in biofilmscore between the MDR groups.
+wilcox_test_result <- wilcox.test(Biofilmscore ~ MDR, data = df_filtered)
+print(wilcox_test_result)
+
+# Convert MDR to binary (1 = yes, 0 = no)
+df$MDR_binary <- ifelse(df$MDR == "Yes", 1, 0)
+
+# Perform Rank-Biserial
+df$MDR <- factor(df$MDR, levels = c("No", "Yes"))
+
+wilcox_result <- rstatix::wilcox_test(df, Biofilmscore ~ MDR, detailed = TRUE)
+effect_size <- wilcox_effsize(df, Biofilmscore ~ MDR)
+
+print(wilcox_result)
+print(effect_size)
