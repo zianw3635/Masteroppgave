@@ -62,16 +62,16 @@ dev.off()
 
 #Clustered heatmap of sequence types. 
 library(readxl)
+library(pheatmap)
 ST_heatmap <- read_excel("~/Desktop/ST_heatmap.xlsx")
 View(ST_heatmap)
 
-ST_heatmapp <- ST_heatmap[, -1]
+ST_heatmap_df <- as.data.frame(ST_heatmap)
 
-library(pheatmap)
+rownames(ST_heatmap_df) <- ST_heatmap_df[[1]]
+ST_heatmapp <- ST_heatmap_df[, -1]
 
-ST_heatmapp <- as.data.frame(ST_heatmapp)
-my_matrix <- as.matrix(ST_heatmapp)
+pheatmap(ST_heatmapp,
+         cutree_cols = 9)
 
-pheatmap(
-  my_matrix,
-  cutree_cols = 9)
+grid::grid.text("Genes", y = unit(0.03, "npc"), gp = gpar(fontsize = 10, fontface = "bold"))
