@@ -46,6 +46,7 @@ Heatmap(gene_matrix,
         col = binary_colors,
         row_title = "Isolates",
         column_title = "Genes",
+        column_title_side = "bottom",
         show_row_names = FALSE, # Hide row names if too many isolates
         show_column_names = TRUE,
         left_annotation = row_anno, # Add annotation
