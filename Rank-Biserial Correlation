@@ -14,15 +14,6 @@ df <- data
 df$MDR[df$MDR == "?"] <- NA
 df_filtered <- na.omit(df)
 
-# Test for normality within groups and the whole group:
-shapiro.test(df$Biofilmscore)  
-
-df_yes <- df_filtered %>% filter(MDR == "Yes")
-df_no  <- df_filtered %>% filter(MDR == "No")
-
-shapiro_test_yes <- shapiro.test(df_yes$Biofilmscore)
-shapiro_test_no  <- shapiro.test(df_no$Biofilmscore)
-
 #Wilxocon test to see if there is a significant difference in biofilmscore between the MDR groups.
 wilcox_test_result <- wilcox.test(Biofilmscore ~ MDR, data = df_filtered)
 print(wilcox_test_result)
