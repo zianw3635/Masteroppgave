@@ -31,7 +31,7 @@ print(wilcox_test_result)
 df$MDR_binary <- ifelse(df$MDR == "Yes", 1, 0)
 
 # Perform Rank-Biserial
-df$MDR <- factor(df$MDR, levels = c("No", "Yes"))
+df$MDR <- factor(df$MDR, levels = c("Yes", "No"))
 
 wilcox_result <- rstatix::wilcox_test(df, Biofilmscore ~ MDR, detailed = TRUE)
 effect_size <- wilcox_effsize(df, Biofilmscore ~ MDR)
