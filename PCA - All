@@ -1,0 +1,37 @@
+library(readxl)
+library(ggplot2)
+
+
+All_sequences <- read_excel("~/OneDrive - UiT Office 365/Masteroppgave i farmasi/All sequences.xlsx")
+
+Data_genes <- All_sequences %>% select(,-ID, -PopPUNK, -MLST,	-Source, -Length_Mbp,	-Num_CDSs, -Num_contigs, -MDR, -Ab_classes, -Pathotype, -Phylogroup, -Isolation, -Year,
+                                       -Country, -Continent, -Total_AMR_genes, -AMR_genes, -Total_virulence_genes, -Pathotype_Vir_genes, -Other_Vir_genes, -name_in_presence_absence)
+
+
+Data_genes <- data.frame(lapply(Data_genes, as.numeric), row.names = rownames(Data_genes))
+
+data_numeric <- Data_genes[, sapply(Data_genes, is.numeric)]
+data_numeric <- data_numeric[, apply(data_numeric, 2, var) > 0]
+
+pca_result <- prcomp(data_numeric, scale. = TRUE)
+
+# Extract the first two principal components
+pca_data <- data.frame(pca_result$x[, 1:2])
+
+# Calculate the proportion of variance explained
+variance_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2)
+
+percent_variance <- round(variance_explained[1:2] * 100, 1)
+
+# Perform k-means clustering
+pca_data$category <- as.factor(Data_genes$ST)
+
+# Plot the PCA
+ggplot(pca_data, aes(x = PC1, y = PC2, color = category)) +
+  geom_point(size = 3) +
+  labs(title = "PCA plot for all isolates",
+       x = paste0("Principal Component 1 (", percent_variance[1], "%)"),
+       y = paste0("Principal Component 2 (", percent_variance[2], "%)"),
+       color ="ST") +
+  scale_color_manual(values = c("orange", "brown", "yellowgreen", "gold", "salmon", "deepskyblue3")) +
+  theme_minimal()
