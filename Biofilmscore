@@ -16,7 +16,7 @@ boxplot(Single_biofilm_combined$`Single genes` ~ Single_biofilm_combined$ST,
         xlab = "ST",
         ylab = "Biofilmscore",
         col = "lightblue",
-        notch = FALSE)
+        notch = TRUE)
 
 
 #Boxplot of biofilmscore of the isolation sources.
@@ -37,4 +37,4 @@ boxplot(Single_biofilm_combined$`Biofilmscore` ~ Single_biofilm_combined$Isolati
         xlab = "Isolation source",
         ylab = "Biofilmscore",
         col = "lightblue",
-        notch = FALSE)
+        notch = TRUE)
