@@ -11,7 +11,7 @@ heatmap_kilde_ST <- read_excel("file.xlsx")
 
 Data_ST_source <- heatmap_kilde_ST %>% select(,-ID, -MLST)
 
-# Extract the matrix of gene values (excluding 'ST' and 'source')
+# Extract the matrix of gene values
 gene_matrix <- as.matrix(Data_ST_source[, !(names(Data_ST_source) %in% c("ST", "Source", "Pathotype"))])
 
 
