@@ -7,7 +7,7 @@ library(circlize)
 library(RColorBrewer)
 
 
-heatmap_kilde_ST <- read_excel("file.xlsx")
+heatmap_kilde_ST <- read_excel("~/Desktop/heatmap_kilde_ST.xlsx")
 
 Data_ST_source <- heatmap_kilde_ST %>% select(,-ID, -MLST)
 
@@ -62,7 +62,7 @@ dev.off()
 #Clustered heatmap of sequence types. 
 library(readxl)
 library(pheatmap)
-ST_heatmap <- read_excel("file.xlsx")
+ST_heatmap <- read_excel("~/Desktop/ST_heatmap.xlsx")
 
 ST_heatmap_df <- as.data.frame(ST_heatmap)
 
