@@ -7,7 +7,7 @@ library(ggpubr)
 library(psych)
 library(coin)
 
-Biofilm_all_sequences <- read_excel("file.xlsx")
+Biofilm_all_sequences <- ("~/OneDrive - UiT Office 365/Masteroppgave i farmasi/Biofilm_all_sequences.xlsx")
 
 df <- Biofilm_all_sequences %>% select(,-ID, -PopPUNK, -MLST,	-Source, -Length_Mbp,	-Num_CDSs, -Num_contigs, -Ab_classes, -Pathotype, -Phylogroup, -Isolation, -Year,
                                        -Country, -Continent, -Total_AMR_genes, -AMR_genes, -Total_virulence_genes, -Pathotype_Vir_genes, -Other_Vir_genes, -name_in_presence_absence)
