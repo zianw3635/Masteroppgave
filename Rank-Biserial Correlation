@@ -7,7 +7,11 @@ library(ggpubr)
 library(psych)
 library(coin)
 
-df <- data
+Biofilm_all_sequences <- read_excel("file.xlsx")
+
+df <- Biofilm_all_sequences %>% select(,-ID, -PopPUNK, -MLST,	-Source, -Length_Mbp,	-Num_CDSs, -Num_contigs, -Ab_classes, -Pathotype, -Phylogroup, -Isolation, -Year,
+                                       -Country, -Continent, -Total_AMR_genes, -AMR_genes, -Total_virulence_genes, -Pathotype_Vir_genes, -Other_Vir_genes, -name_in_presence_absence)
+
 #WHEN FILTERING ST10: df_no_st10 <- df %>% filter(ST != "10")
 
 #Turn unknown MDR (?) into NA. Then remove the NAs. 
