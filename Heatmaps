@@ -1,14 +1,13 @@
 #Clustered heatmap of isolates.
 library(readxl)
-heatmap_kilde_ST <- read_excel("file.xlsx")
-View(heatmap_kilde_ST)
-
 library(pheatmap)
 library(dplyr)
 library(ComplexHeatmap)
 library(circlize)
 library(RColorBrewer)
 
+
+heatmap_kilde_ST <- read_excel("file.xlsx")
 
 Data_ST_source <- heatmap_kilde_ST %>% select(,-ID, -MLST)
 
