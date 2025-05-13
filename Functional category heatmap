@@ -1,8 +1,8 @@
 library(readxl)
+library(ggplot2)
+
 Biofilmscore <- read_excel("~/Library/CloudStorage/OneDrive-UiTOffice365/Masteroppgave i farmasi/Biofilmscore.xlsx", 
                            sheet = "Ark1")
-
-library(ggplot2)
 
 Biofilmscore$`Functional category` <- factor(Biofilmscore$`Functional category`,
                                              levels = c("Total", "Accessory virulence factors", "Transport", "Motility", "Cell metabolism and division", "Regulation", "Capsule", "Adhesins", "Toxins", "Biofilm matrix"))
