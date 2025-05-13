@@ -7,8 +7,7 @@ library(ggplot2)
 library(cluster)
 library(factoextra)
 
-Dataset_operon_cutoff_170325 <- read_excel("~/OneDrive - UiT Office 365/Masteroppgave i farmasi/Dataset_operon_cutoff_170325.xlsx",
-                                           sheet = "ST95")
+Dataset_operon_cutoff_170325 <- read_excel("file.xlsx")
 
 Data_genes_95 <- Dataset_operon_cutoff_170325 %>% select(,-ID, -PopPUNK, -MLST, -ST,	-Source, -Length_Mbp,	-Num_CDSs, -Num_contigs, -MDR, -Ab_classes, -Pathotype, -Phylogroup, -Isolation, -Year,
                                                         -Country, -Continent, -Biofilmscore, -Total_AMR_genes, -AMR_genes, -Total_virulence_genes, -Pathotype_Vir_genes, -Other_Vir_genes, -name_in_presence_absence)
