@@ -1,7 +1,6 @@
 library(readxl)
 library(ggplot2)
 
-
 All_sequences <- read_excel("file.xlsx")
 
 Data_genes <- All_sequences %>% select(,-ID, -PopPUNK, -MLST,	-Source, -Length_Mbp,	-Num_CDSs, -Num_contigs, -MDR, -Ab_classes, -Pathotype, -Phylogroup, -Isolation, -Year,
