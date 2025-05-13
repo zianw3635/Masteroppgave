@@ -1,6 +1,6 @@
 #Clustered heatmap of isolates.
 library(readxl)
-heatmap_kilde_ST <- read_excel("~/Desktop/heatmap_kilde_ST.xlsx")
+heatmap_kilde_ST <- read_excel("file.xlsx")
 View(heatmap_kilde_ST)
 
 library(pheatmap)
@@ -63,8 +63,7 @@ dev.off()
 #Clustered heatmap of sequence types. 
 library(readxl)
 library(pheatmap)
-ST_heatmap <- read_excel("~/Desktop/ST_heatmap.xlsx")
-View(ST_heatmap)
+ST_heatmap <- read_excel("file.xlsx")
 
 ST_heatmap_df <- as.data.frame(ST_heatmap)
 
