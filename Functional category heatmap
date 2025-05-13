@@ -1,7 +1,6 @@
 library(readxl)
 Biofilmscore <- read_excel("~/Library/CloudStorage/OneDrive-UiTOffice365/Masteroppgave i farmasi/Biofilmscore.xlsx", 
                            sheet = "Ark1")
-View(Biofilmscore)
 
 library(ggplot2)
 
